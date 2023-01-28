@@ -1,0 +1,40 @@
+==== AUTOPILOT PROGRAMMING REFERENCE ====
+
+At the heart of every autopilot program is the STEP() function, which is called
+every simulation-step by the game. Inside this function you may call any of the
+following Lua functions provided by the API:
+
+* Querying current simulation state:
+TIME()                       - returns current simulation time in seconds.
+LANDER_ALT()                 - returns current lander altitude in km.
+LANDER_VELOCITY()            - returns magnitude of absolute lander velocity in km/s.
+LANDER_SURFACE_VELOCITY()    - returns magnitude of lander velocity rel. to Mars' surface in km/s.
+LANDER_DESCENT_RATE()        - returns magnitude of lander surface velocity projected on the antiradial axis in km/s.
+LANDER_GROUND_SPEED()        - returns horizontal lander speed rel. to surface in km/s.
+LANDER_DELTA_V()             - returns remaining delta-V.
+LANDER_MAX_THRUST()          - returns main engine thrust at max throttle in kN.
+LANDER_WEIGHT()              - returns lander's current weight in kN.
+LANDER_MASS()                - returns lander's mass in kg.
+PERIAPSIS_ALT()              - returns altitude of current orbit periapsis in km.
+APOAPSIS_ALT()               - returns altitude of current orbit apoapsis in km.
+
+* Lander control functions:
+MAINTAIN_ATTITUDE()          - attempts to eliminate all rotation using a proportional controller.
+HOLD_PROGRADE()              - attempts to align lander's +Y axis with its absolute velocity vector using a PD controller.
+HOLD_RETROGRADE()            - attempts to align lander's +Y axis with its inverted absolute velocity vector using a PD controller.
+HOLD_SURFACE_PROGRADE()      - attempts to align lander's +Y axis with its velocity vector rel. to surface using a PD controller.
+HOLD_SURFACE_RETROGRADE()    - attempts to align lander's +Y axis with its inverted velocity vector rel. to surface using a PD controller.
+HOLD_NORMAL()                - attempts to align lander's +Y axis with the normal to its orbit plane using a PD controller.
+HOLD_ANTINORMAL()            - attempts to align lander's +Y axis with the -normal to its orbit plane using a PD controller.
+HOLD_RADIAL()                - attempts to align lander's +Y axis with the mars->lander vector using a PD controller.
+HOLD_ANTIRADIAL()            - attempts to align lander's +Y axis with the lander->mars vector using a PD controller.
+SET_MAIN_ENGINE_THROTTLE(x)  - sets main engine throttle to x (clamped to 0.0 - 1.0).
+MAINTAIN_SURFACE_VELOCITY(x) - attempts to maintain a surface velocity of x using a PI controller (use in combination with HOLD_SURFACE_RETROGRADE()).
+DEPLOY_PARACHUTE()           - deploy parachute (will be lost instantly if surface velocity is above 0.5 km/s).
+
+* Other functions:
+INFO(msg)                    - Puts the string msg on the autopilot window with a timestamp.
+PAUSE()                      - Pauses the simulation.
+
+For examples of working programs see the autopilot/ directory.
+
